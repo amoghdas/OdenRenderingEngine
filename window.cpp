@@ -3,6 +3,8 @@
 Window::Window() {
 	width_ = 800;
 	height_ = 800;
+	xChange_ = 0.0f;
+	yChange_ = 0.0f;
 
 	for (size_t i = 0; i < 1024; i++) {
 		keys_[i] = 0;
@@ -12,6 +14,8 @@ Window::Window() {
 Window::Window(GLint windowWidth, GLint windowHeight) {
 	width_ = windowWidth;
 	height_ = windowHeight;
+	xChange_ = 0.0f;
+	yChange_ = 0.0f;
 
 	for (size_t i = 0; i < 1024; i++) {
 		keys_[i] = 0;
