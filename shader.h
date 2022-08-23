@@ -1,33 +1,74 @@
 #pragma once
 
-#include <iostream>
+#include <stdio.h>
 #include <string>
+#include <iostream>
 #include <fstream>
-#include <GL/glew.h>
+
+#include <GL\glew.h>
+
+#include "CommonValues.h"
+
+#include "DirectionalLight.h"
+#include "PointLight.h"
 
 class Shader
 {
 public:
 	Shader();
 
-	void createFromString(const char *vertexCode, const char *fragmentCode);
-	void createFromFiles(const char* vertexLocation, const char* fragmentLocation);
+	void CreateFromString(const char* vertexCode, const char* fragmentCode);
+	void CreateFromFiles(const char* vertexLocation, const char* fragmentLocation);
 
-	std::string readFile(const char* fileLocation);
+	std::string ReadFile(const char* fileLocation);
 
-	GLuint getProjectionLocation();
-	GLuint getModelLocation();
-	GLuint getViewLocation();
+	GLuint GetProjectionLocation();
+	GLuint GetModelLocation();
+	GLuint GetViewLocation();
+	GLuint GetAmbientIntensityLocation();
+	GLuint GetAmbientColourLocation();
+	GLuint GetDiffuseIntensityLocation();
+	GLuint GetDirectionLocation();
+	GLuint GetSpecularIntensityLocation();
+	GLuint GetShininessLocation();
+	GLuint GetEyePositionLocation();
 
-	void useShader();
-	void clearShader();
+	void SetDirectionalLight(DirectionalLight* dLight);
+	void SetPointLights(PointLight* pLight, unsigned int lightCount);
+
+	void UseShader();
+	void ClearShader();
 
 	~Shader();
 
 private:
-	GLuint shaderID_, uniformProjection_, uniformModel_, uniformView_;
+	int pointLightCount;
 
-	void compileShader(const char* vertexCode, const char* fragmentCode);
-	void addShader(GLuint theProgram, const char* shaderCode, GLenum shaderType);
+	GLuint shaderID, uniformProjection, uniformModel, uniformView, uniformEyePosition,
+		uniformSpecularIntensity, uniformShininess;
+
+	struct {
+		GLuint uniformColour;
+		GLuint uniformAmbientIntensity;
+		GLuint uniformDiffuseIntensity;
+
+		GLuint uniformDirection;
+	} uniformDirectionalLight;
+
+	GLuint uniformPointLightCount;
+
+	struct {
+		GLuint uniformColour;
+		GLuint uniformAmbientIntensity;
+		GLuint uniformDiffuseIntensity;
+
+		GLuint uniformPosition;
+		GLuint uniformConstant;
+		GLuint uniformLinear;
+		GLuint uniformExponent;
+	} uniformPointLight[MAX_POINT_LIGHTS];
+
+	void CompileShader(const char* vertexCode, const char* fragmentCode);
+	void AddShader(GLuint theProgram, const char* shaderCode, GLenum shaderType);
 };
 
