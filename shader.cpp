@@ -7,6 +7,7 @@ Shader::Shader()
 	uniformProjection = 0;
 
 	pointLightCount = 0;
+	spotLightCount = 0;
 }
 
 void Shader::CreateFromString(const char* vertexCode, const char* fragmentCode)
@@ -116,6 +117,40 @@ void Shader::CompileShader(const char* vertexCode, const char* fragmentCode)
 
 		snprintf(locBuff, sizeof(locBuff), "pointLights[%d].exponent", i);
 		uniformPointLight[i].uniformExponent = glGetUniformLocation(shaderID, locBuff);
+	}
+
+	uniformSpotLightCount = glGetUniformLocation(shaderID, "spotLightCount");
+
+	for (size_t i = 0; i < MAX_SPOT_LIGHTS; i++)
+	{
+		char locBuff[100] = { '\0' };
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].base.base.colour", i);
+		uiniformSpotLight[i].uniformColour = glGetUniformLocation(shaderID, locBuff);
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].base.base.ambientIntensity", i);
+		uiniformSpotLight[i].uniformAmbientIntensity = glGetUniformLocation(shaderID, locBuff);
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].base.base.diffuseIntensity", i);
+		uiniformSpotLight[i].uniformDiffuseIntensity = glGetUniformLocation(shaderID, locBuff);
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].base.position", i);
+		uiniformSpotLight[i].uniformPosition = glGetUniformLocation(shaderID, locBuff);
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].base.constant", i);
+		uiniformSpotLight[i].uniformConstant = glGetUniformLocation(shaderID, locBuff);
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].base.linear", i);
+		uiniformSpotLight[i].uniformLinear = glGetUniformLocation(shaderID, locBuff);
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].base.exponent", i);
+		uiniformSpotLight[i].uniformExponent = glGetUniformLocation(shaderID, locBuff);
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].direction", i);
+		uiniformSpotLight[i].uniformDirection = glGetUniformLocation(shaderID, locBuff);
+
+		snprintf(locBuff, sizeof(locBuff), "spotLights[%d].edge", i);
+		uiniformSpotLight[i].uniformEdge = glGetUniformLocation(shaderID, locBuff);
 	}
 }
 
