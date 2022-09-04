@@ -1,10 +1,10 @@
 #pragma once
-#include "pointLight.h"
+#include "PointLight.h"
 class SpotLight :
-    public PointLight
+	public PointLight
 {
 public:
-    SpotLight();
+	SpotLight();
 
 	SpotLight(GLfloat red, GLfloat green, GLfloat blue,
 		GLfloat aIntensity, GLfloat dIntensity,
@@ -18,12 +18,13 @@ public:
 		GLuint constantLocation, GLuint linearLocation, GLuint exponentLocation,
 		GLuint edgeLocation);
 
-    ~SpotLight();
+	void SetFlash(glm::vec3 pos, glm::vec3 dir);
+
+	~SpotLight();
 
 private:
-    glm::vec3 direction;
+	glm::vec3 direction;
 
-    GLfloat edge, procEdge;
-
+	GLfloat edge, procEdge;
 };
 

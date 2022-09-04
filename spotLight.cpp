@@ -1,6 +1,9 @@
-#include "spotLight.h"
+#include "SpotLight.h"
 
-SpotLight::SpotLight() : PointLight() {
+
+
+SpotLight::SpotLight() : PointLight()
+{
 	direction = glm::vec3(0.0f, -1.0f, 0.0f);
 	edge = 0.0f;
 	procEdge = cosf(glm::radians(edge));
@@ -11,8 +14,10 @@ SpotLight::SpotLight(GLfloat red, GLfloat green, GLfloat blue,
 	GLfloat xPos, GLfloat yPos, GLfloat zPos,
 	GLfloat xDir, GLfloat yDir, GLfloat zDir,
 	GLfloat con, GLfloat lin, GLfloat exp,
-	GLfloat edg) : PointLight(red, green, blue, aIntensity, dIntensity, xPos, yPos, zPos, con, lin, exp) {
+	GLfloat edg) : PointLight(red, green, blue, aIntensity, dIntensity, xPos, yPos, zPos, con, lin, exp)
+{
 	direction = glm::normalize(glm::vec3(xDir, yDir, zDir));
+
 	edge = edg;
 	procEdge = cosf(glm::radians(edge));
 }
@@ -20,7 +25,8 @@ SpotLight::SpotLight(GLfloat red, GLfloat green, GLfloat blue,
 void SpotLight::UseLight(GLuint ambientIntensityLocation, GLuint ambientColourLocation,
 	GLuint diffuseIntensityLocation, GLuint positionLocation, GLuint directionLocation,
 	GLuint constantLocation, GLuint linearLocation, GLuint exponentLocation,
-	GLuint edgeLocation) {
+	GLuint edgeLocation)
+{
 	glUniform3f(ambientColourLocation, colour.x, colour.y, colour.z);
 	glUniform1f(ambientIntensityLocation, ambientIntensity);
 	glUniform1f(diffuseIntensityLocation, diffuseIntensity);
@@ -34,4 +40,12 @@ void SpotLight::UseLight(GLuint ambientIntensityLocation, GLuint ambientColourLo
 	glUniform1f(edgeLocation, procEdge);
 }
 
-SpotLight::~SpotLight() {}
+void SpotLight::SetFlash(glm::vec3 pos, glm::vec3 dir)
+{
+	position = pos;
+	direction = dir;
+}
+
+SpotLight::~SpotLight()
+{
+}
