@@ -155,7 +155,7 @@ void Shader::CompileShader(const char* vertexCode, const char* fragmentCode)
 
 	uniformTexture = glGetUniformLocation(shaderID, "theTexture");
 	uniformDirectionalLightTransform = glGetUniformLocation(shaderID, "directionalLightTransform");
-	uniformDirectionalShadowMap = glGetUniformLocation(shaderID, "directionalShadowMap")
+	uniformDirectionalShadowMap = glGetUniformLocation(shaderID, "directionalShadowMap");
 }
 
 GLuint Shader::GetProjectionLocation()

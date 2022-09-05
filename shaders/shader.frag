@@ -67,7 +67,7 @@ float CalcDirectionalShadowFactor(DirectionalLight light) {
 	float closest = texture(directionalShadowMap, projCoords.xy).r;
 	float current = projCoords.z;
 
-	float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+	float shadow = current > closest ? 1.0 : 0.0;
 
 	return shadow;
 }
