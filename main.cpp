@@ -58,6 +58,8 @@ unsigned int spotLightCount = 0;
 GLfloat deltaTime = 0.0f;
 GLfloat lastTime = 0.0f;
 
+GLfloat blackhawkAngle = 0.0f;
+
 // Vertex Shader
 static const char* vShader = "Shaders/shader.vert";
 
@@ -176,8 +178,15 @@ void renderScene() {
 	shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
 	xwing.RenderModel();
 
+	blackhawkAngle += 0.2f;
+	if (blackhawkAngle > 360.0f) {
+		blackhawkAngle = 0.1f;
+	}
+
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-3.0f, 2.0f, 0.0f));
+	model = glm::rotate(model, -blackhawkAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(-8.0f, 2.0f, 0.0f));
+	model = glm::rotate(model, -20.0f * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::rotate(model, -90.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -266,10 +275,10 @@ int main()
 	blackhawk = Model();
 	blackhawk.LoadModel("Models/uh60.obj");
 
-	mainLight = DirectionalLight(1024, 1024,
+	mainLight = DirectionalLight(2048, 2048,
 								 1.0f, 1.0f, 1.0f,
-								 0.1f, 0.6f,
-								 0.0f, -7.0f, -1.0f);
+								 0.1f, 0.5f,
+								 0.0f, -15.0f, -10.0f);
 	
 	pointLights[0] = PointLight(0.0f, 0.0f, 1.0f,
 								0.0f, 0.1f,
