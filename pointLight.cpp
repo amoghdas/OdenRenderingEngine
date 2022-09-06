@@ -10,7 +10,7 @@ PointLight::PointLight() : Light()
 	exponent = 0.0f;
 }
 
-PointLight::PointLight(GLfloat shadowWidth, GLfloat shadowHeight,
+PointLight::PointLight(GLuint shadowWidth, GLuint shadowHeight,
 	GLfloat near, GLfloat far,
 	GLfloat red, GLfloat green, GLfloat blue,
 	GLfloat aIntensity, GLfloat dIntensity,
@@ -22,9 +22,9 @@ PointLight::PointLight(GLfloat shadowWidth, GLfloat shadowHeight,
 	linear = lin;
 	exponent = exp;
 
-	float aspect = (float)shadowWidth / (float)shadowHeight;
-
 	farPlane = far;
+
+	float aspect = (float)shadowWidth / (float)shadowHeight;
 	lightProj = glm::perspective(glm::radians(90.0f), aspect, near, far);
 
 	shadowMap = new OmniShadowMap();
@@ -47,31 +47,29 @@ void PointLight::UseLight(GLuint ambientIntensityLocation, GLuint ambientColourL
 
 std::vector<glm::mat4> PointLight::CalculateLightTransform()
 {
-	std::vector<glm::mat4> lightTransforms;
-	lightTransforms.push_back(lightProj *
-		glm::lookAt(position, position + glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0)));
-	lightTransforms.push_back(lightProj *
-		glm::lookAt(position, position + glm::vec3(-1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0)));
-	lightTransforms.push_back(lightProj *
-		glm::lookAt(position, position + glm::vec3(0.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 1.0)));
-	lightTransforms.push_back(lightProj *
-		glm::lookAt(position, position + glm::vec3(0.0, -1.0, 0.0), glm::vec3(0.0, 0.0, -1.0)));
-	lightTransforms.push_back(lightProj *
-		glm::lookAt(position, position + glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, -1.0, 0.0)));
-	lightTransforms.push_back(lightProj *
-		glm::lookAt(position, position + glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, -1.0, 0.0)));
+	std::vector<glm::mat4> lightMatrices;
+	//+x, -x
+	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0)));
+	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(-1.0, 0.0, 0.0), glm::vec3(0.0, -1.0, 0.0)));
 
-	return lightTransforms;
-}
+	//+y, -y
+	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(0.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 1.0)));
+	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(0.0, -1.0, 0.0), glm::vec3(0.0, 0.0, -1.0)));
 
-glm::vec3 PointLight::GetPosition()
-{
-	return position;
+	//+z, -z
+	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, -1.0, 0.0)));
+	lightMatrices.push_back(lightProj * glm::lookAt(position, position + glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, -1.0, 0.0)));
+
+	return lightMatrices;
 }
 
 GLfloat PointLight::GetFarPlane()
 {
 	return farPlane;
+}
+glm::vec3 PointLight::GetPosition()
+{
+	return position;
 }
 
 PointLight::~PointLight()
