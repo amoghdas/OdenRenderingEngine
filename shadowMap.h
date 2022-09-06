@@ -1,22 +1,22 @@
 #pragma once
 
-#include <iostream>
 #include <stdio.h>
-#include <GL/glew.h>
+
+#include <GL\glew.h>
 
 class ShadowMap
 {
 public:
 	ShadowMap();
 
-	virtual bool init(GLuint width, GLuint height);
+	virtual bool Init(GLuint width, GLuint height);
 
-	virtual void write();
+	virtual void Write();
 
-	virtual void read(GLenum textureUnit);
+	virtual void Read(GLenum textureUnit);
 
-	GLuint getShadowWidth() { return shadowWidth; }
-	GLuint getShadowHeight() { return shadowHeight; }
+	GLuint GetShadowWidth() { return shadowWidth; }
+	GLuint GetShadowHeight() { return shadowHeight; }
 
 	~ShadowMap();
 

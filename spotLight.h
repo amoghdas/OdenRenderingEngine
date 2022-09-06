@@ -6,7 +6,7 @@ class SpotLight :
 public:
 	SpotLight();
 
-	SpotLight(GLuint shadowWidth, GLuint shadowHeight,
+	SpotLight(GLfloat shadowWidth, GLfloat shadowHeight,
 		GLfloat near, GLfloat far,
 		GLfloat red, GLfloat green, GLfloat blue,
 		GLfloat aIntensity, GLfloat dIntensity,
@@ -22,11 +22,15 @@ public:
 
 	void SetFlash(glm::vec3 pos, glm::vec3 dir);
 
+	void Toggle() { isOn = !isOn; }
+
 	~SpotLight();
 
 private:
 	glm::vec3 direction;
 
 	GLfloat edge, procEdge;
+
+	bool isOn;
 };
 

@@ -3,9 +3,8 @@
 #include <GL\glew.h>
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
-#include <vector>
 
-#include "shadowMap.h"
+#include "ShadowMap.h"
 
 class Light
 {
@@ -15,7 +14,7 @@ public:
 		GLfloat red, GLfloat green, GLfloat blue,
 		GLfloat aIntensity, GLfloat dIntensity);
 
-	ShadowMap* getShadowMap() { return shadowMap; }
+	ShadowMap* GetShadowMap() { return shadowMap; }
 
 	~Light();
 
